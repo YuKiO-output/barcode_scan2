@@ -125,17 +125,30 @@ class BarcodeScannerViewController: UIViewController {
   }
   
   private func setupScanRect(_ bounds: CGRect) {
+
     if scanRect != nil {
-      scanRect?.stopAnimating()
-      scanRect?.removeFromSuperview()
+        scanRect?.stopAnimating()
+        scanRect?.removeFromSuperview()
     }
+    
+ 
     scanRect = ScannerOverlay(frame: bounds)
     if let scanRect = scanRect {
-      scanRect.translatesAutoresizingMaskIntoConstraints = false
-      scanRect.backgroundColor = UIColor.clear
-      view.addSubview(scanRect)
-      scanRect.startAnimating()
+        scanRect.translatesAutoresizingMaskIntoConstraints = false
+        scanRect.backgroundColor = UIColor.clear
+        view.addSubview(scanRect)
+        scanRect.startAnimating()
     }
+    
+
+    let scanRectWidth: CGFloat = 200 // スキャン枠の幅
+    let scanRectHeight: CGFloat = 100 // スキャン枠の高さ
+    let x = (bounds.width - scanRectWidth) / 2 // 中央配置
+    let y = (bounds.height - scanRectHeight) / 2 // 中央配置
+    let scanArea = CGRect(x: x, y: y, width: scanRectWidth, height: scanRectHeight)
+    
+    // MTBBarcodeScanner のスキャン範囲に設定
+    scanner?.scanRect = scanArea
   }
   
   private func startScan() {
